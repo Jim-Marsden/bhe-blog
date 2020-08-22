@@ -1,9 +1,9 @@
 [submodule "fmt"]
 	path = fmt
-	url = https://github.com/fmtlib/fmt
+	url = https://github.com/TremblingOdin/fmt
 [submodule "restinio"]
 	path = restinio
-	url = https://github.com/Stiffstream/restinio
-[submodule "Catch2"]
-	path = Catch2
-	url = https://github.com/catchorg/Catch2
+	url = https://github.com/TremblingOdin/restinio
+[submodule "http-parser"]
+	path = http-parser
+	url = https://github.com/TremblingOdin/http-parser
