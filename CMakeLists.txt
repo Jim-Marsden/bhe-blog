@@ -6,8 +6,8 @@ set(Boost_USE_STATIC_LIBS ON) # only find static libs
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
-find_package(fmt REQUIRED)
-find_package(restinio REQUIRED)
+add_subdirectory(fmt REQUIRED)
+add_subdirectory(restinio/dev REDUIRED)
 
 find_package(Catch2 REQUIRED)
 
