@@ -33,6 +33,6 @@ elseif(WIN32)
     include_directories(${LIBPQXX_INCLUDE_DIR})
 endif()
 
-add_executable(webserver main.cpp)
+add_executable(webserver main.cpp backend/server-handler.cpp backend/server-handler.h)
 
 target_link_libraries(webserver ${Server_Libraries} ${Boost_LIBRARIES})
