@@ -6,7 +6,7 @@ set(Boost_USE_STATIC_LIBS ON) # only find static libs
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
-find_package(unofficial-http-parser REQUIRED)
+
 find_package(fmt REQUIRED)
 find_package(restinio CONFIG REQUIRED)
 
@@ -22,17 +22,19 @@ if (Boost_FOUND)
 endif ()
 
 if(UNIX)
+
     set(PQXX /usr/local/include/pqxx)
     find_library(PQXX_LIB pqxx REQUIRED)
     find_library(PQ_LIB pq REQUIRED)
-    set(Server_Libraries ${Server_Libraries} libpqxx libpq)
+    set(Server_Libraries ${Server_Libraries} pqxx pq pthread)
 
 elseif(WIN32)
+    find_package(unofficial-http-parser REQUIRED)
     find_path(LIBPQXX_INCLUDE_DIR pqxx)
     find_library(LIBPQXX_LIBRARY liblibpqxx_static.a)
     include_directories(${LIBPQXX_INCLUDE_DIR})
 endif()
 
-add_executable(webserver main.cpp)
+add_executable(webserver main.cpp html_generator.cpp html_generator.h)
 
 target_link_libraries(webserver ${Server_Libraries} ${Boost_LIBRARIES})
