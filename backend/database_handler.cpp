@@ -67,13 +67,19 @@ auto sfkg::database_handler::Uri_Parse(std::wstring const &uri) -> Uri {
         result.Query_String = std::wstring(query_start, uri_end);
     }
 
+    result.Connection_String = result.Protocol + result.Host + result.Path;
+
+    if(result.Port.compare(L"") != 0) {
+        result.Connection_String += result.Port;
+    }
+
+
     return result;
 }
 
-auto Database_Available(sfkg::database_handler::Uri const &uri) -> bool {
+auto Database_Connect(sfkg::database_handler::Uri const &uri) -> pqxx::connection {
+    std::string conn_string(uri.Connection_String.begin(), uri.Connection_String.end());
 
-}
+    pqxx::connection conn{conn_string};
 
-auto Database_Connect(sfkg::database_handler::Uri const &uri) -> bool {
-    
 }

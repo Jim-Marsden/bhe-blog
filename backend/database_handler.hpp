@@ -9,16 +9,18 @@
 
 #include <string>
 #include <algorithm>
+#include <pqxx/pqxx>
 
 namespace sfkg::database_handler {
     struct Uri {
     public:
-        std::wstring Query_String, Path, Protocol, Host, Port;
+        std::wstring Query_String, Path, Protocol, Host, Port, Connection_String;
     };
 
     auto Uri_Parse(std::wstring const &uri) -> Uri;
     auto Database_Available(sfkg::database_handler::Uri const &uri) -> bool;
-    auto Database_Connect(sfkg::database_handler::Uri const &uri) -> bool;
+    auto Database_Connect(sfkg::database_handler::Uri const &uri) -> pqxx::connection;
+    auto Database_Init(sfkg::database_handler::Uri const &uri);
 }
 
 #endif //WEBSERVER_DATABASE_HANDLER_HPP
