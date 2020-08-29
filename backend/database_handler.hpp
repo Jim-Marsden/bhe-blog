@@ -18,9 +18,10 @@ namespace sfkg::database_handler {
     };
 
     auto Uri_Parse(std::wstring const &uri) -> Uri;
-    auto Database_Available(sfkg::database_handler::Uri const &uri) -> bool;
+    auto Database_Available(std::string const dbname,
+                            pqxx::connection conn) -> bool;
     auto Database_Connect(sfkg::database_handler::Uri const &uri) -> pqxx::connection;
-    auto Database_Init(sfkg::database_handler::Uri const &uri);
+    auto Database_Init(pqxx::connection conn);
 }
 
 #endif //WEBSERVER_DATABASE_HANDLER_HPP
