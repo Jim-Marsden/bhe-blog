@@ -13,13 +13,11 @@ namespace sfkg::database_handler {
     struct Uri {
     public:
         std::wstring Query_String, Path, Protocol, Host, Port;
-
-        static auto Uri::Parse(const std::wstring &uri) -> Uri;
-
-        auto Database_Available(const sfkg::database_handler::Uri &uri) -> bool;
-
-        
     };
+
+    auto Uri_Parse(const std::wstring &uri) -> Uri;
+    auto Database_Available(const sfkg::database_handler::Uri &uri) -> bool;
+    auto Database_Connect(const sfkg::database_handler::Uri &uri) -> bool;
 }
 
 #endif //WEBSERVER_DATABASE_HANDLER_H
