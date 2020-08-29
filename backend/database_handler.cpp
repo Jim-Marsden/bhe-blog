@@ -78,13 +78,13 @@ auto sfkg::database_handler::Uri_Parse(std::wstring const &uri) -> Uri {
 }
 
 auto Database_Available(std::string const dbname,
-                        pqxx::connection conn) -> bool {
-    if(!conn.is_open()) return false;
+                        std::shared_ptr<pqxx::connection> conn) -> bool {
+    if(!conn->is_open()) return false;
 
     std::string query = "Select datname From pg_catalog.pg_database WHERE lower(datname) = " + dbname;
 
     try {
-        pqxx::work transact(conn);
+        pqxx::work transact(*conn);
         pqxx::row row = transact.exec1(query);
     } catch(pqxx::unexpected_rows err) {
         return false;
@@ -93,17 +93,17 @@ auto Database_Available(std::string const dbname,
     return true;
 }
 
-auto Database_Connect(sfkg::database_handler::Uri const &uri) -> pqxx::connection {
+auto Database_Connect(sfkg::database_handler::Uri const &uri) -> std::shared_ptr<pqxx::connection> {
     std::string conn_string(uri.Connection_String.begin(), uri.Connection_String.end());
-    pqxx::connection conn{conn_string};
+    return std::make_shared<pqxx::connection>(conn_string);
 }
 
 auto Database_Init(std::string const dbname,
-                   pqxx::connection conn) {
-    if(!conn.is_open()) return;
+                   std::shared_ptr<pqxx::connection> conn) {
+    if(!conn->is_open()) return;
 
     std::string init_query = "CREATE TABLE " + dbname + "(ID INT PRIMARY KEY NOT NULL);";
 
-    pqxx::work transact(conn);
+    pqxx::work transact(*conn);
     transact.exec(init_query);
 }
