@@ -9,6 +9,8 @@
 auto sfkg::database_handler::Uri_Parse(std::wstring const &uri) -> Uri {
     using const_iter = std::wstring ::const_iterator;
 
+    //TODO: create uri sanitization
+
     Uri result;
 
     if(uri.length() == 0) return result;
@@ -66,4 +68,12 @@ auto sfkg::database_handler::Uri_Parse(std::wstring const &uri) -> Uri {
     }
 
     return result;
+}
+
+auto Database_Available(sfkg::database_handler::Uri const &uri) -> bool {
+
+}
+
+auto Database_Connect(sfkg::database_handler::Uri const &uri) -> bool {
+    
 }
