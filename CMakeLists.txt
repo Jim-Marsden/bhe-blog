@@ -1,6 +1,9 @@
+#CmakeLists.txt
 cmake_minimum_required(VERSION 3.16)
-project(webserver)
-set(CMAKE_CXX_STANDARD 17) #
+project(webserver LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ./cmake_modules )
+
 
 set(Boost_USE_STATIC_LIBS ON) # only find static libs
 set(Boost_USE_MULTITHREADED ON)
@@ -9,6 +12,11 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 find_package(unofficial-http-parser REQUIRED)
 find_package(fmt REQUIRED)
 find_package(restinio CONFIG REQUIRED)
+
+
+find_package(pqxx REQUIRED)
+
+
 
 find_package(Catch2 REQUIRED)
 
@@ -22,17 +30,12 @@ if (Boost_FOUND)
 endif ()
 
 if(UNIX)
-    set(PQXX /usr/local/include/pqxx)
-    find_library(PQXX_LIB pqxx REQUIRED)
-    find_library(PQ_LIB pq REQUIRED)
-    set(Server_Libraries ${Server_Libraries} libpqxx libpq)
+
 
 elseif(WIN32)
-    find_path(LIBPQXX_INCLUDE_DIR pqxx)
-    find_library(LIBPQXX_LIBRARY liblibpqxx_static.a)
-    include_directories(${LIBPQXX_INCLUDE_DIR})
+
 endif()
 
 add_executable(webserver main.cpp backend/database_handler.cpp backend/database_handler.hpp)
 
-target_link_libraries(webserver ${Server_Libraries} ${Boost_LIBRARIES})
+target_link_libraries(webserver ${Server_Libraries} ${Boost_LIBRARIES} ${PQXX_LIBRIARIES})
