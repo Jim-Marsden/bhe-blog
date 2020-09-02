@@ -102,7 +102,7 @@ auto Database_Init(std::string const dbname,
                    std::shared_ptr<pqxx::connection> conn) {
     if(!conn->is_open()) return;
 
-    std::string init_query = "CREATE TABLE " + dbname + "(ID INT PRIMARY KEY NOT NULL);";
+    std::string init_query = "CREATE TABLE " + dbname + " (ID INT PRIMARY KEY NOT NULL);";
 
     pqxx::work transact(*conn);
     transact.exec(init_query);
