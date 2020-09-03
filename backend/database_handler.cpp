@@ -99,11 +99,12 @@ auto Database_Connect(sfkg::database_handler::Uri const &uri) -> std::shared_ptr
 }
 
 auto Database_Init(std::string const dbname,
-                   std::shared_ptr<pqxx::connection> conn) {
-    if(!conn->is_open()) return;
+                   std::shared_ptr<pqxx::connection> conn) -> bool {
+    if(!conn->is_open()) return false;
 
     std::string init_query = "CREATE TABLE " + dbname + " (ID INT PRIMARY KEY NOT NULL);";
 
     pqxx::work transact(*conn);
     transact.exec(init_query);
+    return true;
 }

@@ -16,18 +16,51 @@
 #include <pqxx/pqxx>
 
 namespace sfkg::database_handler {
+    /**
+     * The different segments of the URI
+     */
     struct Uri {
     public:
         std::wstring Query_String, Path, Protocol, Host, Port, Connection_String;
     };
 
+    /**
+     * Creates a URI struct from a passed in wstring
+     * @param uri wstring
+     * @return Uri
+     */
     auto Uri_Parse(std::wstring const &uri) -> Uri;
+
+    /**
+     * Given a connection object and database table name,
+     * Tests if the table exists
+     * @param dbname string
+     * @param conn shared_ptr<pqxx::connection>
+     * @return if the database table exists
+     */
     auto Database_Available(std::string const dbname,
                             std::shared_ptr<pqxx::connection> conn) -> bool;
-    auto Database_Connect(sfkg::database_handler::Uri const &uri) -> std::shared_ptr<pqxx::connection>;
-    auto Database_Init(std::string const dbname,
-                       std::shared_ptr<pqxx::connection> conn);
 
+    /**
+     * Given a URI, attempts to make and return a connection object to the given database
+     * @param uri Uri
+     * @return shared_ptr<pqxx::connection>
+     */
+    auto Database_Connect(sfkg::database_handler::Uri const &uri) -> std::shared_ptr<pqxx::connection>;
+
+    /**
+     * Using a provided conneciton object:
+     * Attempts to create a database table with the given table name
+     * @param dbname string
+     * @param conn shared_ptr<pqxx::connection>
+     * @return if the creation request was made
+     */
+    auto Database_Init(std::string const dbname,
+                       std::shared_ptr<pqxx::connection> conn) -> bool;
+
+    /**
+     * Each Command Keyword in SQL as a Enum
+     */
     enum class Sql_Command {
         ALTER_TABLE,
         AND,
